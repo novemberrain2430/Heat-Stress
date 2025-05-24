@@ -246,7 +246,7 @@ DetailsScreen.navigationOptions = (props) => {
 
                 <Text style={{ fontWeight: "bold", color: "green" }}>
                     {" "}
-                    {props.navigation.getParam("fullName")}
+                   IỆT NAM
                 </Text>
                 <TouchableOpacity
                     style={{
@@ -265,7 +265,7 @@ DetailsScreen.navigationOptions = (props) => {
                         size={23}
                         style={{ marginRight: 7, marginLeft: 7 }}
                     />
-                    <Text>Log out</Text>
+                    <Text>Logx out</Text>
                 </TouchableOpacity>
             </View>
         ),

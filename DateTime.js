@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, TextInput, Button, Image} from "react-native";
+import {View, Text, StyleSheet, TextInput, Button, Image, TouchableOpacity, Dimensions} from "react-native";
 import moment from "moment-timezone";
 import {Loading} from "./Loading";
 
 import * as Location from "expo-location";
 import axios from "axios";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 const days = [
   "Sunday",
   "Monday",
@@ -77,25 +78,17 @@ const DateTime = ({onSendData ,onSendDataTemp , timezone  }) => {
 
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-     // console.log(status);
       if (status !== "granted") {
         alert("Xin hãy cho phép ứng dụng sử dụng dữ liệu vị trí trong Setting!")
-        //weatherapi("40.7128", "-74.0060");
         return;
       }
       setLoading(true)
       let location = await Location.getLastKnownPositionAsync({
         accuracy: 6
       }).then(currentPosition => {
-        //console.log(currentPosition);
-        setTimeout(() => {
-          weatherapi(currentPosition.coords.latitude, currentPosition.coords.longitude);
-        },3000);
-
+        weatherapi(currentPosition.coords.latitude, currentPosition.coords.longitude);
       });
 
-
-      //fetchUTCI(0,0);
     })();
 
 
@@ -260,7 +253,7 @@ const DateTime = ({onSendData ,onSendDataTemp , timezone  }) => {
                   value={data.current ? data.current.temp_c : ""}
                   unit=" °C"
               />
-          <View style={{marginLeft: 20, flexDirection:'row',alignItems: 'right', justifyContent: "right", textAlign: "right"}}>
+          <View style={{marginLeft: 5, flexDirection:'row',alignItems: 'right', justifyContent: "right", textAlign: "right"}}>
             <Image
               source={{
                // uri: 'https://cdn.weatherapi.com/weather/64x64/night/296.png',
@@ -269,7 +262,10 @@ const DateTime = ({onSendData ,onSendDataTemp , timezone  }) => {
               style={{ width: 30, height: 30 }}
 
           />
-            <Text style={[styles.subheading,{ textAlign: "right"}]}> {data.current && data.current.condition && data.current.condition.text? data.current.condition.text : ""}</Text>
+            <Text style={[styles.subheading,{ textAlign: "right", marginRight: 30}]}>
+              {data.current && data.current.condition && data.current.condition.text? data.current.condition.text : ""
+              }
+            </Text>
           </View>
               </View>
           )}
@@ -297,7 +293,44 @@ const DateTime = ({onSendData ,onSendDataTemp , timezone  }) => {
       </View>
     
       <View style={styles.rightAlign}>
-        <Text style={styles.timezone}>UCTI</Text>
+        <TouchableOpacity
+            style={{
+              marginRight: -20
+              //flexDirection: "row",
+              //display: "flex",
+              //justifyContent: "space-between",
+              //height:Dimensions.get('window').height/12,
+             // width:Dimensions.get('window').width/6,
+            }}
+            onPress={() => {
+
+            }}
+        >
+
+          <Text style={{
+            fontSize: 14,
+            color: "#ffffff",
+            fontWeight: 'thin'
+          }}>Chỉ số nhiệt tổng hợp</Text>
+          <View style={{flexDirection:'row', width:120}}>
+              <Text style={{
+                fontSize: 35,
+                color: "#058541",
+                marginRight:10
+              }}>UCTI </Text>
+              <MaterialCommunityIcons
+                  name="help-circle-outline"
+                  color={"#317324"}
+                  size={18}
+                  style={{
+                    //backgroundColor: '#000000',
+                    marginLeft: -12,
+                    marginTop: 10
+                  }}
+              />
+              </View>
+        </TouchableOpacity>
+
         <Text style={styles.latlong}>
          {uIndex.toFixed(2)} °C
         </Text>

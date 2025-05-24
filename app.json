@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "HSWA",
-    "slug": "snack-6bfbdc85-a9b0-426b-afd0-9a777cf38f86",
-    "version": "1.0.11",
+    "slug": "hswa",
+    "version": "1.0.12",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,14 +18,17 @@
           "locationAlwaysAndWhenInUsePermission": "Allowsz $(PRODUCT_NAME) to use your location."
         }
       ],
-	   ["expo-build-properties", {
-        "android": {
-          "usesCleartextTraffic": true
-        },
-        "ios": {
-			"deploymentTarget": "15.1"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
         }
-      }]
+      ]
     ],
     "ios": {
       "supportsTablet": true
@@ -36,14 +39,18 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anhcruachplay.snack6bfbdc85a9b0426bafd09a777cf38f86"
+      "package": "com.anhcruachplay.hswa",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "b4a6d4e0-c1d9-495f-9536-8d04e5251f7b"
+        "projectId": "034f7c92-5b0d-4fc2-b563-c34bfa385f8c"
       }
     }
   }

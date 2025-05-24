@@ -31,6 +31,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 
 
@@ -185,7 +186,7 @@ export function HomeScreen() {
 }
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Details',
+  initialRouteName: 'Home',
   screens: {
     Home: {screen: HomeScreen,
       options: {
@@ -194,12 +195,34 @@ const RootStack = createNativeStackNavigator({
     },
     Details: {screen: DetailsScreen,
       options:  ({ route, navigation }) => ( {
-          title: 'Nguyễn Phú Dũng',
+          title: 'QUÂN Y VIỆT NAM',
+          titleColor:'#135427',
           headerBackButtonMenuEnabled:false,
           headerBackVisible: false,
           headerShown: true,
           headerRight: () => (
-              <Button title={'Log out'} style={{color: "transparent"}} onPress={() =>  navigation.navigate('Home')}>Info</Button>
+              <TouchableOpacity
+                  style={{
+                      flexDirection: "row",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      height:Dimensions.get('window').height/12,
+                      width:Dimensions.get('window').width/6,
+                  }}
+                  onPress={() => {
+
+                  }}
+              >
+                  <Image    source={require('./assets/topbaricon.png')}
+                            style={[{
+                                //height:60,
+                                //width:60,
+                                height:Dimensions.get('window').height/12,
+                                width:Dimensions.get('window').width/6,
+                                overflow:'hidden', flex:1}]}/>
+              </TouchableOpacity>
+
+
           ),
       })
     }
