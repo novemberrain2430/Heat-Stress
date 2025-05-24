@@ -185,7 +185,7 @@ export function HomeScreen() {
 }
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
+  initialRouteName: 'Details',
   screens: {
     Home: {screen: HomeScreen,
       options: {
