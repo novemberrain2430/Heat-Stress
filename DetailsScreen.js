@@ -1,7 +1,7 @@
 import React, { useEffect, useState  } from "react";
 import {
     View, Text, StyleSheet, TextInput, Button, SafeAreaView, ImageBackground, KeyboardAvoidingView,
-    TouchableOpacity, Image, BackHandler, Modal, Pressable
+    TouchableOpacity, Image, BackHandler, Modal, Pressable, Dimensions,FlatList, ScrollView
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment-timezone";
@@ -37,8 +37,14 @@ export function DetailsScreen() {
     const [icon3, setIcon3] = useState('');
     const [icon1, setIcon1] = useState('');
     const [icon2, setIcon2] = useState('');
+    const [modalVisible1, setModalVisible1] = useState(false);
+    const [listSerice, setListService] = useState([]);
+    const [listSericeX, setListServiceX] = useState([]);
 
     useEffect(() => {
+
+        getDetails();
+        getDetailsX();
         const onBackPress = () => {
             BackHandler.exitApp()
             return true;
@@ -50,6 +56,8 @@ export function DetailsScreen() {
         );
 
         return () => backHandler.remove();
+
+
     }, []);
 
 
@@ -85,7 +93,51 @@ export function DetailsScreen() {
     }
 
 
+    async function getDetails(){
 
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url:'http://103.125.189.238:8092/api/ATLD/GetDetails',
+            headers: { }
+        };
+
+        await  axios.request(config)
+            .then((response) => {
+                if(response!==undefined)
+                {
+                   // console.log(response.data)
+                    setListService(response.data)
+                }
+            })
+            .catch((error) => {
+                alert(error);
+            });
+
+    }
+
+    async function getDetailsX(){
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url:'http://103.125.189.238:8092/api/ATLD/GetDetailsX',
+            headers: { }
+        };
+
+        await  axios.request(config)
+            .then((response) => {
+                if(response!==undefined)
+                {
+                    console.log(response.data)
+                    setListServiceX(response.data)
+                }
+            })
+            .catch((error) => {
+                alert(error);
+            });
+
+    }
     const WeatherItem1 = ({ title, value, unit, icon }) => {
         return (
             <View style={styles.weatherItem}>
@@ -107,6 +159,72 @@ export function DetailsScreen() {
         );
     };
 
+    const  renderItemService=  (item)  =>{
+        return(
+            <View style={{flex:1,
+                flexDirection:'row',borderWidth:0.5,borderColor:"black", backgroundColor:'white'}}>
+                <Text  style={{
+                    flex: 1,paddingLeft: 1,fontWeight:400,
+                    //backgroundColor:'black',
+                    //borderWidth:0.5,borderColor:"black",borderLeftWidth: 0.5,
+                    alignSelf: 'center',
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.nhietdo}</Text>
+                <View style={{borderLeftWidth:0.5,borderColor:"black", backgroundColor:'white'}}/>
+
+
+                <Text  style={{
+                    flex: 2,padding: 1,fontWeight:400,
+                    alignSelf: 'center',
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.muc}</Text>
+                <View style={{borderLeftWidth:0.5,borderColor:"black", backgroundColor:'white'}}/>
+                <Text  style={{
+                    flex: 2,paddingLeft: 1,
+                    alignSelf: 'center',fontWeight:400,
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.nguyco}</Text>
+                <View style={{borderLeftWidth:0.5,borderColor:"black", backgroundColor:'white'}}/>
+                <Text  style={{
+                    flex: 5,paddingLeft: 2,fontWeight:400,
+                    alignSelf: 'center',
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.kc}</Text>
+
+            </View>
+        );
+    }
+
+    const  renderItemServiceX=  (item)  =>{
+        return(
+            <View style={{flex:1,
+                flexDirection:'row',borderWidth:0.5,borderColor:"black", backgroundColor:'white'}}>
+                <Text  style={{
+                    flex: 1,paddingLeft: 1,fontWeight:400,
+                    //backgroundColor:'black',
+                    //borderWidth:0.5,borderColor:"black",borderLeftWidth: 0.5,
+                    alignSelf: 'center',
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.nhietdo}</Text>
+                <View style={{borderLeftWidth:0.5,borderColor:"black", backgroundColor:'white'}}/>
+
+
+                <Text  style={{
+                    flex: 3,paddingLeft: 1,fontWeight:400,
+                    alignSelf: 'center',
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.trieuchung}</Text>
+                <View style={{borderLeftWidth:0.5,borderColor:"black", backgroundColor:'white'}}/>
+                <Text  style={{
+                    flex: 6,paddingLeft: 1,
+                    alignSelf: 'center',fontWeight:400,
+                    color:'black', fontSize:12,alignItems:'stretch'}}>
+                    {item.xutri}</Text>
+
+
+            </View>
+        );
+    }
   return (
 
       <KeyboardAvoidingView
@@ -145,15 +263,168 @@ export function DetailsScreen() {
 
 
               </View>
+              <Modal
+                  animationType="fade"
+                  transparent={true}
+                  visible={modalVisible1}
+                  onRequestClose={() => {
+                      setModalVisible1(!modalVisible1);
+                  }}
+              >
+                  <ScrollView style={{
+                      flex: 1,
+                      //justifyContent: "center",
+                      //alignItems: "center",
 
-              {messageFromChild !=='' ?
-                  (                       <View style={{
+                      backgroundColor:"rgba(0,0,0, 0.60)",
+                      marginTop: 22,
+                      width: Dimensions.get('window').width
+                  }}>
+                      <View style={{
+                          flex: 1,flexDirection:'space-between',
+                          margin: 10,
+                          width:Dimensions.get('window').width - 20,
+                          // height: Dimensions.get('window').height *2 /3,
+                          backgroundColor: "white",
+                          borderRadius: 5,
+                          padding: 2,
+                          alignItems: "center",
+                          shadowColor: "#000",
+                          shadowOffset: {
+                              width: 0,
+                              height: 2,
+                          },
+                          shadowOpacity: 0.25,
+                          shadowRadius: 4,
+                          elevation: 5,
+                      }}>
+                          <View style={{flexDirection: "row", display: "flex" , alignContent:'center'}}>
+                              <MaterialCommunityIcons
+                                  name="information-outline"
+                                  color={"red"}
+                                  size={25}
+
+                              />
+                              <Text style={{ color: "black", fontSize:20, marginLeft: 5 }}>1. Khuyến cáo dựa trên UCTI   </Text>
+
+                          </View>
+                          <View style={{flexDirection:'row',display:"flex", marginBottom: 15, borderBottomWidth: 1, borderTopWidth: 1}}>
+                              <FlatList
+                                  data={listSerice}
+                                  ListHeaderComponent={() => {
+                                      return (
+                                          <View style={{flexDirection:'row', padding:5, marginLeft:-2,borderBottomWidth:1, borderBottomColor:'white', justifyContent:'space-between'}}>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>UTCI </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   Mức độ </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   Nguy cơ  </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   Khuyến cáo </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>        </Text>
+                                          </View>
+
+                                      )
+                                  }}
+                                  renderItem={({ item }) => renderItemService(item)}
+                                  keyExtractor={(item, id) => id.toString()}
+                              />
+
+                          </View>
+
+                          <View style={{flexDirection: "row", display: "flex" , alignContent:'center'}}>
+
+                              <Text style={{ color: "black", fontSize:20, marginLeft: 5 }}>2.Xử trí say nắng/say nóng theo UTCI   </Text>
+
+                          </View>
+                          <View style={{flexDirection:'row',display:"flex", marginBottom: 15, borderBottomWidth: 1, borderTopWidth: 1}}>
+                              <FlatList
+                                  data={listSericeX}
+                                  ListHeaderComponent={() => {
+                                      return (
+                                          <View style={{flexDirection:'row', padding:5, marginLeft:-2,borderBottomWidth:1, borderBottomColor:'white', justifyContent:'space-between'}}>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>UTCI </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>Triệu chứng </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   Xử trí  </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>   </Text>
+                                              <Text  style={{color:'#00178d', fontSize:14,}}>        </Text>
+                                          </View>
+
+                                      )
+                                  }}
+                                  renderItem={({ item }) => renderItemServiceX(item)}
+                                  keyExtractor={(item, id) => id.toString()}
+                              />
+
+                          </View>
+                          <View style={{flex: 18,  flexDirection: "row", display: "none" ,padding: 10, alignContent:'center'}}>
+                              <Text style={{
+                                  flex: 1,
+                                  backgroundColor: "white",
+                                  borderWidth: 0.5,
+                                  //margin: 10,
+                                  padding: 5,
+                                  alignItems: "center",
+                                 // borderRadius: 10,
+                                  borderColor: "black",
+                                  //marginBottom: 20,
+                                  //width: Dimensions.get('window').width
+                              }}>{'<9'}</Text>
+                              <Text style={{
+                                  flex: 2,
+                                  borderWidth: 0.5,
+                                  padding: 5,
+                                  borderColor: "black",
+                              }}>Không căng thẳng nhiệt (lạnh)</Text>
+                              <Text style={{
+                                  flex: 2,
+                                  borderWidth: 0.5,
+                                  padding: 5,
+                                  borderColor: "black",
+                              }}>Không có  nguy cơ say nắng</Text>
+                              <Text style={{
+                                  flex: 5,
+                                  borderWidth: 0.5,
+                                  padding: 5,
+                                  borderColor: "black",
+                              }}>Chú ý mặc ấm tùy theo điều kiện nhiệt độ ngoài trời để tránh cơ thể nhiễm lạnh.</Text>
+                          </View>
+
+                          <Pressable
+                              style={{
+                                  borderWidth: 1,
+                                  borderColor: "blue",
+                                  padding: 10,
+                                  backgroundColor: "green",
+                                  //  marginBottom: 20
+                              }}
+                              onPress={() => setModalVisible1(!modalVisible1)}
+                          >
+                              <Text style={{ color: "white" }}>Close </Text>
+                          </Pressable>
+                      </View>
+                  </ScrollView>
+              </Modal>
+              {messageFromChild !=='' ? (
+
+                                   <View style={{
                       backgroundColor: "#18181b99",
                       borderRadius: 20,
                       padding: 10,
                       flex: 3,
                       margin: 10
                   }}>
+               <TouchableOpacity
+                   style={{
+                       //marginRight: -20
+                       //flexDirection: "row",
+                       //display: "flex",
+                       //justifyContent: "space-between",
+                       //height:Dimensions.get('window').height/12,
+                       // width:Dimensions.get('window').width/6,
+                   }}
+                   onPress={() => {
+                       setModalVisible1(!modalVisible1)
+                   }}
+               >
                       <View style={{
                           flexDirection: "row",
                           justifyContent: "space-between", maginBottom: 10
@@ -165,7 +436,18 @@ export function DetailsScreen() {
                               fontWeight: "150",
                               padding:5
                           }}>KHUYẾN CÁO:</Text>
+                          <MaterialCommunityIcons
+                              name="help-circle-outline"
+                              color={"#dde5dd"}
+                              size={18}
+                              style={{
+                                  //backgroundColor: '#000000',
+                                  marginLeft: -12,
+                                  marginTop: 10
+                              }}
+                          />
                       </View>
+
                       <Text style={{
                           //flex: 1,  marginTop: -40,
                           color: "white",
@@ -199,7 +481,10 @@ export function DetailsScreen() {
                           alignContent: "center",
                           marginLeft: 15,
                       }}>- Luyện tập: {messageFromChild.luyentap} </Text>
-                      </View>)
+                      </TouchableOpacity>
+                      </View>
+
+                  )
               : null}
 
               {messageFromChild !=='' ?

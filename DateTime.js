@@ -440,7 +440,7 @@ const DateTime = ({onSendData ,onSendDataTemp , timezone  }) => {
         </TouchableOpacity>
 
         <Text style={styles.latlong}>
-         {uIndex.toFixed(2)} °C
+         {uIndex.toFixed(2)}
         </Text>
 
         <Text style={[styles.latlong,{ textAlign: "right", marginTop: -5}]}>
