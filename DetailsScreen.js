@@ -1,6 +1,8 @@
 import React, { useEffect, useState  } from "react";
-import {View, Text, StyleSheet, TextInput, Button, SafeAreaView, ImageBackground, KeyboardAvoidingView,
-    TouchableOpacity,Image, BackHandler } from "react-native";
+import {
+    View, Text, StyleSheet, TextInput, Button, SafeAreaView, ImageBackground, KeyboardAvoidingView,
+    TouchableOpacity, Image, BackHandler, Modal, Pressable
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment-timezone";
 import {Loading} from "./Loading";
@@ -143,35 +145,61 @@ export function DetailsScreen() {
 
 
               </View>
+
               {messageFromChild !=='' ?
-                  (  <View style={{
-                      backgroundColor: "rgba(0,0,0, 0.150)",
-                      flex: 1,
-                      // marginTop: -30,
-                      justifyContent: "flex-start",
+                  (                       <View style={{
+                      backgroundColor: "#18181b99",
+                      borderRadius: 20,
+                      padding: 10,
+                      flex: 3,
+                      margin: 10
                   }}>
+                      <View style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between", maginBottom: 10
+
+                      }}>
+                          <Text style={{
+                              color: "#eee",
+                              fontSize: 16,
+                              fontWeight: "150",
+                              padding:5
+                          }}>KHUYẾN CÁO:</Text>
+                      </View>
                       <Text style={{
-                          flex: 1,
-                          marginTop: -40,
+                          //flex: 1,  marginTop: -40,
                           color: "white",
-                          alignSelf: "flex-start",
-                          fontWeight: "normal",
-                          fontSize: 16,
-                          alignItems: "center",
-                          alignContent: "center",
-                          marginLeft: 15,
-                      }}>Khuyến cáo: </Text>
-                      <Text style={{
-                          flex: 1,  marginTop: -40,
-                          color: "white",
-                          alignSelf: "center",
+                          margin: 5,
+                          //alignSelf: "center",
                           fontWeight: "normal",
                           fontSize: 20,
                           alignItems: "center",
                           alignContent: "center",
                           marginLeft: 15,
-                      }}>{messageFromChild.kc} </Text>
-                  </View>)
+                      }}>- Mang mặc: {messageFromChild.mangmac} </Text>
+                      <Text style={{
+                          //flex: 1,  marginTop: -40,
+                          color: "white",
+                          margin: 5,
+                         // alignSelf: "center",
+                          fontWeight: "normal",
+                          fontSize: 20,
+                          alignItems: "center",
+                          alignContent: "center",
+                          marginLeft: 15,
+                      }}>- Bổ sung nước: {messageFromChild.uongnuoc} </Text>
+                      <Text style={{
+                          //flex: 1,  marginTop: -40,
+                          margin: 5,
+                          color: "white",
+                         // alignSelf: "center",
+                          fontWeight: "normal",
+                          fontSize: 20,
+                          alignItems: "center",
+                          alignContent: "center",
+                          marginLeft: 15,
+                      }}>- Luyện tập: {messageFromChild.luyentap} </Text>
+                      </View>)
               : null}
 
               {messageFromChild !=='' ?
@@ -194,7 +222,7 @@ export function DetailsScreen() {
                           fontWeight: "150",
                           padding:5
                       }}>Dự báo 3 ngày</Text>
-                      <Text style={[styles.weatherItemTitle, {marginLeft:-80} ]}>UCTI</Text>
+                      <Text style={[styles.weatherItemTitle, {marginLeft:-80} ]}>UTCI</Text>
                       <Text style={styles.weatherItemTitle}>
 
                       </Text>
